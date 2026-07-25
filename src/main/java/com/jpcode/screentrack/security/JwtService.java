@@ -36,7 +36,7 @@ public class JwtService {
 
     public String generateRefreshToken(User user) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256("12345678");
+            Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("Screen Track")
                     .withSubject(user.getId().toString())
@@ -52,7 +52,7 @@ public class JwtService {
     public String verifyToken(String token) {
         DecodedJWT decodedJWT;
         try {
-            Algorithm algorithm = Algorithm.HMAC256("12345678");
+            Algorithm algorithm = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm)
                     .withIssuer("Screen Track")
                     .build();
