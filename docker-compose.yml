@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: screentrack-db
+
+    environment:
+      POSTGRES_DB: screentrack
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    image: screentrack-api
+    container_name: screentrack-api
+    
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - postgres
+
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
+      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+
+      JWT_SECRET: ${JWT_SECRET}
+
+      OMDB_API_KEY: ${OMDB_API_KEY}
+
+      EMAIL_USERNAME: ${EMAIL_USERNAME}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+volumes:
+  postgres_data:
