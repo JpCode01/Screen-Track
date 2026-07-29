@@ -27,7 +27,6 @@ public class OmdbService {
     public List<OmdbSearchResultDto> searchByTitle(String title) {
         OmdbSearchResponseDto response =
                 omdbClient.searchByTitle(title);
-        System.out.println(response);
         if (response == null ||
             response.response().equalsIgnoreCase("False")) {
             throw new BusinessRuleException("Media not found");

@@ -7,6 +7,7 @@ import com.jpcode.screentrack.integration.omdb.dto.OmdbSearchResultDto;
 import com.jpcode.screentrack.media.dto.MediaResponseDto;
 import com.jpcode.screentrack.media.dto.MediaSearchResponseDto;
 import jakarta.transaction.Transactional;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,8 +32,8 @@ public class MediaService {
                     return mediaRepository.save(media);
                 });
     }
-    
-    @Transactional
+
+    @Cacheable(value = "mediaSearch", key = "#title.toLowerCase()")
     public List<MediaSearchResponseDto> search(String title) {
 
         return omdbService.searchByTitle(title)
